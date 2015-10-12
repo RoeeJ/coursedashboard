@@ -201,7 +201,9 @@ Template.admin.events({
     })
   },
   "click #pwdgen": function(event) {
-    $('#userPassword').val(generatePassword());
+    $('#userPassword').fadeOut(300, function() {
+      $('#userPassword').val(generatePassword()).fadeIn(300);
+    });
   },
   "click #submitu": function(event) {
     event.preventDefault();

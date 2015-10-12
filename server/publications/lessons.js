@@ -3,7 +3,7 @@ Meteor.publishComposite("lessons", function() {
     find: function() {
       if(isInRole(this.userId,'locked')) return;
       if(isInRole(this.userId,'trial')){
-        return Lessons.find({perm: {$where:function(){return (this.perm==1 || this.perm==4)}}, locked:false})
+        return Lessons.find({perm: {$ne:2}, locked:false})
       } else {
         if(Roles.userIsInRole(this.userId,'admin')) {
           return Lessons.find();
