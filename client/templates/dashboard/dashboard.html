@@ -1,14 +1,16 @@
 <template name="dashboard">
   <div class="template-dashboard">
     <div class="page-header">
-      <h1>Dashboard</h1>
+      <h1 style="direction:rtl">רשימת שיעורים</h1>
     </div>
-
+    {{#unless isLocked}}
     <ul class="list-group">
-      {{#each items}}
-        <li class="list-group-item">{{ name }} <span class="label label-default">{{ rating }}</span></li>
+      {{#each listLessons}}
+        <li right class="list-group-item"><a href="{{pathFor 'lesson' _id}}">{{subject}} <span fl class="label label-default">{{ ln }}</span></a></li>
       {{/each}}
     </ul>
-
+    {{else}}
+    <img rtl src="images/403.jpg" alt="גישה לא מאושרת" title="גישה לא מאושרת" style="height:100%;width:100%;"/>
+    {{/unless}}
   </div>
 </template>

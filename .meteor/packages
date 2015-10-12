@@ -6,7 +6,6 @@
 meteor-platform
 less
 accounts-password
-useraccounts:bootstrap
 alanning:roles
 zimme:iron-router-active
 cmather:handlebars-server@0.2.0
@@ -24,3 +23,11 @@ aldeed:collection2
 aldeed:autoform
 useraccounts:iron-routing
 meteortoys:allthings
+mizzao:bootboxjs
+useraccounts:bootstrap
+keylase:meteor-videojs
+ostrio:files
+lee:countdown
+jquery
+rubaxa:sortable
+coffeescript

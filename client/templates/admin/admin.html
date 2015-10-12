@@ -1,0 +1,143 @@
+<template name="admin">
+  <div id="usermanagement">
+    <h3 rtl>רשימת משתמשים</h3>
+    <ul class="list-group">
+      {{#each listUsers}}
+      <li class="list-group-item">
+        <p id="email" class="{{#if isLocked}} crossed {{/if}}">{{ userEmail }} {{timeToExpire}}
+          <button class="btn btn-danger" fr id="delbtn"> מחק משתמש</button>
+          {{#unless isLocked}}
+          <button class="btn btn-warning" fr id="lckbtn"> נעל משתמש</button>
+          <i class="fa fa-2x fa-unlock" fl ma></i>
+          {{else}}
+          <button class="btn btn-success" fr id="unlckbtn"> בטל נעילת משתמש</button>
+          <i class="fa fa-2x fa-lock" fl m5 ></i>
+          {{/unless}}
+          {{#if isTrialUser}}
+          <button class="btn btn-info" fr id="mkperm">הפוך למשתמש קבוע</button>
+          <i class="fa fa-2x fa-clock-o" fl ma></i>
+          {{else}}
+          <button class="btn btn-info" fr id="mktrial">הפוך למשתמש ניסיון</button>
+          {{/if}}
+        </p></li>
+        {{/each}}
+        <li class="list-group-item">
+          <form id="fuser" class="form-horizontal fuser">
+            <fieldset>
+
+              <!-- Form Name -->
+              <legend>הוספת משתמש</legend>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label rtl class="col-md-4 control-label" for="textinput">שם משתמש/אימייל</label>
+                <div class="col-md-4">
+                  <input required rtl id="userEmail" name="userEmail" placeholder="שם משתמש/אימייל" class="form-control input-md" type="text">
+                  <span class="help-block">שם משתמש/אימייל</span>
+                </div>
+              </div>
+
+              <!-- Password input-->
+              <div class="form-group">
+                <label rtl class="col-md-4 control-label" for="passwordinput">ססמא</label>
+                <div class="col-md-4">
+                  <input required rtl  id="userPassword" name="userPassword" placeholder="ססמא" class="form-control input-md" type="text">
+                  <span rtl class="help-block">ססמא</span>
+                </div>
+              </div>
+
+              <!-- Select Basic -->
+              <div class="form-group">
+                <label rtl class="col-md-4 control-label" for="selectbasic">הרשאות משתמש</label>
+                <div class="col-md-4">
+                  <select rtl id="uperm" name="uperm" class="form-control">
+                    <option rtl value="1">משתמש ניסיון</option>
+                    <option rtl value="2">משתמש משלם</option>
+                  </select>
+                </div>
+              </div>
+              <button fl id="pwdgen" name="singlebutton" class="btn btn-info" type="button">ג'נרט ססמא</button>
+              <button type="button" fr id="submitu" name="submit" class="btn btn-success">רשום משתמש</button>
+
+            </fieldset>
+          </form>
+
+        </li>
+      </ul>
+    </div>
+    <div id="lessonmanagement">
+      <div id="elesson">
+        <h3 rtl>רשימת שיעורים</h3>
+        <ul id="lessonlist" class="list-group">
+          {{#sortable items=listLessons sortField="ln" options=getOptions}}
+          <li class="list-group-item">
+            <p id="{{_id}}" class="{{#if isDisabled}} crossed {{/if}} lesson">{{ subject }}
+              <button class="btn btn-danger" fr id="delbtn"> מחק שיעור</button>
+              {{#unless isDisabled}}
+              <button class="btn btn-warning" fr id="lckbtn">נעל שיעור</button>
+              <i class="fa fa-2x fa-unlock" fl ma ></i>
+              {{else}}
+              <button class="btn btn-success" fr id="unlckbtn"> בטל נעילת שיעור</button>
+              <i class="fa fa-2x fa-lock" fl m5 ></i>
+              {{/unless}}
+              <button class="btn btn-default" fr m5 id="permbtn">שנה הרשאות שיעור</button>
+            </p></li>
+            {{/sortable}}
+          </ul>
+        </div>
+        <div id="clesson">
+          <ul class="list-group">
+            <li class="list-group-item">
+              <form rtl class="form-horizontal flesson">
+                <fieldset>
+
+                  <!-- Form Name -->
+                  <legend center>הוספת שיעור</legend>
+
+                  <!-- Text input-->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" right for="subject">נושא שיעור</label>
+                    <div class="col-md-4">
+                      <input id="subject" name="subject" placeholder="נושא" class="form-control input-md" required="" type="text">
+                      <span class="help-block">הכנס נושא השיעור</span>
+                    </div>
+                  </div>
+
+                  <!-- Select Multiple -->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="permlvl">הרשאות</label>
+                    <div class="col-md-4">
+                      <select id="permlvl" name="permlvl" class="form-control" multiple="multiple">
+                        <option value="1">כולם</option>
+                        <option value="2">לקוחות משלמים</option>
+                        <option value="4">לקוחות ניסיון</option>
+                      </select>
+                      <span class="help-block">בחר בהרשאה הרצויה</span>
+                    </div>
+                  </div>
+                  <!-- File Button -->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="filebutton">העלאת קובץ</label>
+                    <div class="col-md-4">
+                      <input id="filebutton" name="filebutton" class="input-file" type="file">
+                    </div>
+                  </div>
+                  <div class="progress" style="display:none;">
+                    <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;min-width:2em;">
+                      0%
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label" for="submit">העלה שיעור</label>
+                    <div class="col-md-4">
+                      <button fr type="button" id="submitl" class="btn btn-success">העלה שיעור</button>
+                    </div>
+                  </div>
+
+                </fieldset>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </template>

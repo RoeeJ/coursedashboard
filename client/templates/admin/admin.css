@@ -1,0 +1,35 @@
+li {
+  list-style-type: none;
+}
+#delbtn {
+  margin-left: 3px
+}
+#lessonmanagement {
+  width: 100%;
+}
+#permbtn {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+  margin-right: 3px;
+}
+#mkperm {
+  margin-right: 3px;
+}
+#mktrial {
+  margin-right: 3px;
+}
+#fuser > fieldset:nth-child(1) > legend:nth-child(1) {
+  text-align: center;
+}
+i.fa {
+  margin-right: 2%;
+}
+.help-block {
+  float: right;
+}
+[autosize] {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}

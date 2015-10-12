@@ -2,8 +2,11 @@ if(Meteor.isClient) {
   Meta.config({
       options: {
         // Meteor.settings[Meteor.settings.environment].public.meta.title
-        title: 'Default Project Title',
-        suffix: 'Project Title'
+        title: 'קורס אנדרואיד',
+        suffix: 'קורס אנדרואיד'
       }
   });
+}
+if(Meteor.isClient){
+  window.oncontextmenu = function(){return false;}  
 }
