@@ -1,4 +1,85 @@
 Meteor.subscribe('Videos');
+if(Meteor.isClient){
+  Forms.mixin(Template.userForm);
+  Forms.mixin(Template.lessonForm);
+}
+Template.userForm.events({
+  "documentSubmit": function(event, template, doc){
+    if(!doc.userEmail || !doc.userPassword) return;
+    if(event.currentTarget.checkValidity()) {
+      var perm = $('#uperm').val() === '1' ? ['trial'] : [];
+      var opts = {
+          username: doc.userEmail,
+          email: doc.userEmail,
+          password: doc.userPassword,
+          roles: perm,
+          creator: Meteor.userId()
+      };
+      Meteor.call('mkUser',opts, function(err) {
+        if(err) {
+          bootbox.alert(err);
+        }
+        else {
+          $('#fuser').replaceWith('<h1><span class="label label-success" style="display:block;">המשתמש נוצר בהצלחה</span></h1>');
+        }
+      });
+    }
+     console.log(doc);
+  }
+});
+Template.lessonForm.events({
+  "documentSubmit": function(event, template, doc){
+    var subject = doc.subject
+    if(!subject) return;
+    var sum = 0
+    var sel = doc.permlvl;
+    if(!sel) {
+      sel = 1;
+    } else {
+      sel.forEach(function(t) {
+        sum += Number(t);
+      });
+    }
+    if(!!!Session.get('fileId')) {
+      bootbox.alert('אנא בחר קובץ ו/או וודא סיום העלאה, תיבת ההעלאה תעלם בסוף ההעלאה');
+      return;
+    }
+    Lessons.insert({
+      locked:false,
+      subject: subject,
+      perm: sum,
+      fileId: Session.get('fileId')
+    });
+    Session.set('fileId',undefined);
+    $('#clesson').replaceWith('<h1><span class="label label-success" style="display:block;">השיעור הועלה בהצלחה</span></h1>');
+  },
+  'propertyChange': function(event,template,changes) {
+    if(changes.filebutton) {
+      $('.progress').fadeIn(300)
+      _.each(event.currentTarget.files, function(file) {
+        Videos.insert({
+          file: file,
+          meta: {},
+          onUploaded: function(err, fileObj) {
+            if(err) {
+
+            } else {
+              Session.set('fileId',fileObj._id);
+              $('.progress').fadeOut(300)
+              $('[for=filebutton]').fadeOut(300)
+              $('#filebutton').fadeOut(300)
+            }
+          },
+          onProgress: function(progress) {
+            var el = $('.progress-bar');
+            el.css('width',progress+'%');
+            el.text(progress.toString().substring(0,5)+'%');
+          }
+        });
+      });
+    }
+  }
+});
 Template.admin.helpers({
   getLessonEntryClass: function() {
     return Template.admin.__helpers.get('isDisabled')(this._id) ? "zbg crossed lesson" : "zbg lesson"
@@ -20,6 +101,9 @@ Template.admin.helpers({
   },
   isDisabled: function(docId) {
     return docId ? Lessons.findOne(docId).locked :  Lessons.findOne(this._id).locked
+  },
+  isAdmin: function() {
+    return Roles.userIsInRole(this._id,'admin');
   },
   isTrialUser: function() {
     return Roles.userIsInRole(this._id, 'trial');
@@ -208,29 +292,6 @@ Template.admin.events({
       $('#userPassword').val(generatePassword()).fadeIn(300);
     });
   },
-  "click #submitu": function(event) {
-    event.preventDefault();
-    if(event.currentTarget.checkValidity()) {
-      var username = $('#userEmail').val();
-      var password = $('#userPassword').val();
-      var perm = $('#uperm').val() === '1' ? ['trial'] : [];
-      var opts = {
-          username: username,
-          email: username,
-          password: password,
-          roles: perm,
-          creator: Meteor.userId()
-      };
-      Meteor.call('mkUser',opts, function(err) {
-        if(err) {
-          bootbox.alert(err);
-        }
-        else {
-          $('#fuser').replaceWith('<h1><span class="label label-success" style="display:block;">המשתמש נוצר בהצלחה</span></h1>');
-        }
-      });
-    }
-  },
   "click #permbtn": function(event) {
     var self = this;
     bootbox.dialog({
@@ -257,56 +318,6 @@ Template.admin.events({
           }
         }
       }
-    });
-  },
-  "click #submitl": function(event){
-    event.preventDefault();
-    var subject = $('#subject').val()
-    if(!subject) return;
-    var sum = 0
-    var sel = $('#permlvl').val();
-    if(!sel) {
-      bootbox.alert('אנא בחר הרשאות שיעור');
-      return;
-    }
-    sel.forEach(function(t) {
-      sum += Number(t);
-    });
-    if(!!!Session.get('fileId')) {
-      bootbox.alert('אנא בחר קובץ ו/או וודא סיום העלאה, תיבת ההעלאה תעלם בסוף ההעלאה');
-      return;
-    }
-    Lessons.insert({
-      locked:false,
-      subject: subject,
-      perm: sum,
-      fileId: Session.get('fileId')
-    });
-    Session.set('fileId',undefined);
-    $('#clesson').replaceWith('<h1><span class="label label-success" style="display:block;">השיעור הועלה בהצלחה</span></h1>');
-  },
-  'change #filebutton': function(event, template) {
-    $('.progress').fadeIn(300)
-    _.each(event.currentTarget.files, function(file) {
-      Videos.insert({
-        file: file,
-        meta: {},
-        onUploaded: function(err, fileObj) {
-          if(err) {
-
-          } else {
-            Session.set('fileId',fileObj._id);
-            $('.progress').fadeOut(300)
-            $('[for=filebutton]').fadeOut(300)
-            $('#filebutton').fadeOut(300)
-          }
-        },
-        onProgress: function(progress) {
-          var el = $('.progress-bar');
-          el.css('width',progress+'%');
-          el.text(progress.toString().substring(0,5)+'%');
-        }
-      });
     });
   }
 });

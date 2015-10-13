@@ -106,6 +106,7 @@ ui@1.0.6
 underscore@1.0.3
 underscorestring:underscore.string@3.2.1
 url@1.0.4
+useful:forms@1.0.4
 useraccounts:bootstrap@1.12.3
 useraccounts:core@1.12.3
 useraccounts:iron-routing@1.12.3
