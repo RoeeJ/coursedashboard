@@ -71,17 +71,19 @@
         <ul id="lessonlist" class="list-group">
           {{#sortable items=listLessons sortField="ln" options=getOptions}}
           <li class="list-group-item">
-            <p id="{{_id}}" class="{{#if isDisabled}} crossed {{/if}} lesson">{{ subject }}
-              <button class="btn btn-danger" fr id="delbtn"> מחק שיעור</button>
-              {{#unless isDisabled}}
-              <button class="btn btn-warning" fr id="lckbtn">נעל שיעור</button>
-              <i class="fa fa-2x fa-unlock" fl ma ></i>
-              {{else}}
-              <button class="btn btn-success" fr id="unlckbtn"> בטל נעילת שיעור</button>
-              <i class="fa fa-2x fa-lock" fl m5 ></i>
-              {{/unless}}
-              <button class="btn btn-default" fr m5 id="permbtn">שנה הרשאות שיעור</button>
-            </p></li>
+            <p>
+            {{> editableText id="test" class=getLessonEntryClass inputClass="zbg" autoResize=true collection="Lessons" field="subject" saveOnFocusout=true}}
+            <button class="btn btn-danger" fr id="delbtn"> מחק שיעור</button>
+            {{#unless isDisabled}}
+            <button class="btn btn-warning" fr id="lckbtn">נעל שיעור</button>
+            <i class="fa fa-2x fa-unlock" fl ma ></i>
+            {{else}}
+            <button class="btn btn-success" fr id="unlckbtn"> בטל נעילת שיעור</button>
+            <i class="fa fa-2x fa-lock" fl m5 ></i>
+            {{/unless}}
+            <button class="btn btn-default" fr m5 id="permbtn">שנה הרשאות שיעור</button>
+            </p>
+          </li>
             {{/sortable}}
           </ul>
         </div>

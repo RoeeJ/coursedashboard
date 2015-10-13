@@ -1,8 +1,11 @@
 <template name="lesson">
-  {{#unless isDisabled}}
+  {{#unless isDisabled this}}
   <h3 id="subject" center>{{subject}}</h3>
   <video id="video" src="{{getVideoLink}}" controls></video>
   {{else}}
-  <h1 rtl center>השיעור נעול</h1>
+  <h3 rtl center>השיעור נעול, לא קיים או לא פתוח להרשאותיך</h3>
   {{/unless}}
+</template>
+<template name="lesson404">
+
 </template>

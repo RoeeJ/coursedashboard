@@ -3,7 +3,8 @@ Template.lesson.helpers({
   getVideoLink: function() {
     return Videos.link(Videos.collection.findOne(this.fileId))
   },
-  isDisabled: function() {
-    return this.locked;
+  isDisabled: function(docId) {
+    console.log(docId);
+    return this.locked || Roles.userIsInRole(Meteor.userId(),'locked') || (Roles.userIsInRole(Meteor.userId(),'trial') && this.perm === 2) || this.unavail;
   }
 });

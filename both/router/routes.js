@@ -14,17 +14,17 @@ Router.route("/lesson", {
     return Meteor.subscribe('lessons');
   },
   data:function(){
-    return Lessons.findOne(this.params._id);
-  },
-  onRun:function(){
-    if(Meteor.user() && !Roles.userIsInRole(Meteor.userId(),'locked')) {
-      this.next()
-    } else {
-      this.render('home');
+    if(this.params._id) {
+      return Lessons.findOne(this.params._id) || {unavail:true};
     }
+    //return Lessons.findOne(this.params._id) || {unavail:true};
   },
-  onReRun:function(){
-
+  onRun:function() {
+      if(Meteor.user() && !Roles.userIsInRole(Meteor.userId(),'locked')) {
+        this.next()
+      } else {
+        this.render('home');
+      }
   }
 });
 Router.route("/admin", {

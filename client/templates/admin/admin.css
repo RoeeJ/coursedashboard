@@ -33,3 +33,8 @@ i.fa {
   margin-right: auto;
   width: 80%;
 }
+.zbg {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 30%;
+}

@@ -1,12 +1,13 @@
 Meteor.subscribe('Videos');
-Template.admin.onRendered = function(){
-}
 Template.admin.helpers({
+  getLessonEntryClass: function() {
+    return Template.admin.__helpers.get('isDisabled')(this._id) ? "zbg crossed lesson" : "zbg lesson"
+  },
   listUsers: function(){
     return Users.find();
   },
   listLessons: function() {
-    return Lessons.find();
+    return Lessons.find({},{sort:{'ln':1}});
   },
   userEmail: function() {
     return this.emails[0].address;
@@ -17,23 +18,25 @@ Template.admin.helpers({
   isLocked: function() {
     return Roles.userIsInRole(this._id,'locked');
   },
-  isDisabled: function() {
-    return Lessons.findOne(this._id).locked
+  isDisabled: function(docId) {
+    return docId ? Lessons.findOne(docId).locked :  Lessons.findOne(this._id).locked
   },
   isTrialUser: function() {
     return Roles.userIsInRole(this._id, 'trial');
   },
-  lessons: function() {
-    return Lessons.find();
-  },
   getOptions: function() {
+    //console.log(this)
     return {
       onEnd: function() {
         var index = 1;
         _.each($('.lesson'), function(item) {
-          Lessons.update({_id: item.id}, {
-            $set:{
-              ln: index++
+          _.each($(item).prop('class').split(' '), function(cls) {
+            if(cls.indexOf('et-') > -1) {
+              Lessons.update({_id: cls.substr(3)}, {
+                $set:{
+                  ln: index++
+                }
+              });
             }
           });
         });
