@@ -7,7 +7,7 @@ Template.userForm.events({
   "documentSubmit": function(event, template, doc){
     if(!doc.userEmail || !doc.userPassword) return;
     if(event.currentTarget.checkValidity()) {
-      var perm = $('#uperm').val() === '1' ? ['trial'] : [];
+      var perm = $('#uperm').val() === '1' ? [] : ['perm'];
       var opts = {
           username: doc.userEmail,
           email: doc.userEmail,
@@ -24,7 +24,7 @@ Template.userForm.events({
         }
       });
     }
-     console.log(doc);
+     //console.log(doc);
   }
 });
 Template.lessonForm.events({
@@ -35,10 +35,6 @@ Template.lessonForm.events({
     var sel = doc.permlvl;
     if(!sel) {
       sel = 1;
-    } else {
-      sel.forEach(function(t) {
-        sum += Number(t);
-      });
     }
     if(!!!Session.get('fileId')) {
       bootbox.alert('אנא בחר קובץ ו/או וודא סיום העלאה, תיבת ההעלאה תעלם בסוף ההעלאה');
@@ -106,7 +102,11 @@ Template.admin.helpers({
     return Roles.userIsInRole(this._id,'admin');
   },
   isTrialUser: function() {
-    return Roles.userIsInRole(this._id, 'trial');
+    //console.log(this);
+    return !Roles.userIsInRole(this._id, 'perm');
+  },
+  isOpenToTrialUsers: function() {
+    return this.perm!=2;
   },
   getOptions: function() {
     //console.log(this)
@@ -295,7 +295,7 @@ Template.admin.events({
   "click #permbtn": function(event) {
     var self = this;
     bootbox.dialog({
-      message: '<select rtl id="cperm" name="permlvl" class="form-control" multiple="multiple"><option value="1">כולם</option><option value="2">לקוחות משלמים</option><option value="4">לקוחות ניסיון</option></select>',
+      message: '<select rtl id="cperm" name="permlvl" class="form-control"><option value="1">כולם</option><option value="2">לקוחות משלמים</option><option value="4">לקוחות ניסיון</option></select>',
       title: '<p rtl>שינוי הרשאות שיעור</p>',
       onEscape: true,
       buttons: {
@@ -303,11 +303,7 @@ Template.admin.events({
           label: "כן",
           className: "btn-success",
           callback: function() {
-            var sum = 0;
-            $('#cperm').val().forEach(function(t) {
-              sum += Number(t);
-            });
-            Lessons.update(self['_id'], {$set:{perm:sum}})
+            Lessons.update(self['_id'], {$set:{perm:$('#cperm').val()}})
           }
         },
         no: {

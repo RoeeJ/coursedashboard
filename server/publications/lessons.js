@@ -2,14 +2,12 @@ Meteor.publishComposite("lessons", function() {
   return {
     find: function() {
       if(isInRole(this.userId,'locked')) return;
-      if(isInRole(this.userId,'trial')){
-        return Lessons.find({perm: {$ne:2}, locked:false})
+      if(isInRole(this.userId,'admin')) {
+        return Lessons.find({},{sort:{ln:1}});
+      } else if(isInRole(this.userId,'perm')) {
+        return Lessons.find({locked:false},{sort:{ln:1}});
       } else {
-        if(Roles.userIsInRole(this.userId,'admin')) {
-          return Lessons.find();
-        } else {
-          return Lessons.find({locked:false});
-        }
+        return Lessons.find({locked:false, perm: {$ne:2, $ne:'2'}},{sort:{ln:1}});
       }
     }
   }

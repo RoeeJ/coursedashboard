@@ -37,6 +37,9 @@
           {{#sortable items=listLessons sortField="ln" options=getOptions}}
           <li class="list-group-item">
             <p>
+            {{#if isOpenToTrialUsers}}
+            <i class="fa fa-2x fa-clock-o" fl ma></i>
+            {{/if}}
             {{> editableText id="test" class=getLessonEntryClass inputClass="zbg" autoResize=true collection="Lessons" field="subject" saveOnFocusout=true}}
             <button class="btn btn-danger" fr id="delbtn"> מחק שיעור</button>
             {{#unless isDisabled}}

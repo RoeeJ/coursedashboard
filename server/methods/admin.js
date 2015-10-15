@@ -13,10 +13,10 @@ Meteor.methods({
     Roles.removeUsersFromRoles(userId,'locked')
   },
   mkUserPerm: function(userId) {
-    Roles.removeUsersFromRoles(userId,'trial')
+    Roles.addUsersToRoles(userId,'perm');
   },
   mkUserTrial: function(userId) {
-    Roles.addUsersToRoles(userId,'trial')
+    Roles.removeUsersFromRoles(userId,'perm');
   },
   mkUser: function(userDoc) {
     if(!userDoc.creator === this.userId) return new Meteor.Error(403,'Unauthorized access');
