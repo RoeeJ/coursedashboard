@@ -17,7 +17,7 @@
   "setupNode": true,
 
   // WARNING: If nodeVersion omitted will setup 0.10.36 by default. Do not use v, only version number.
-  "nodeVersion": "0.10.36",
+  "nodeVersion": "0.10.40",
 
   // Install PhantomJS in the server
   "setupPhantom": true,
@@ -30,7 +30,7 @@
   "appName": "CourseDashboard",
 
   // Location of app (local directory)
-  "app": "/home/cipher/Development/Meteor/CourseDashboard",
+  "app": "/Users/cipher/Developer/Meteor/CourseDashboard",
 
   // Configure environment
   "env": {

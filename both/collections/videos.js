@@ -1,4 +1,4 @@
-Videos = new Meteor.Files('videos', {
-  storagePath: '/uploads',
-  collectionName: 'videos'
+Videos = new Meteor.Files({
+  throttle: 2*1024*1024,
+  protected: true
 })

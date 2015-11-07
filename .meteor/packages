@@ -3,7 +3,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 less
 accounts-password
 alanning:roles
@@ -23,7 +22,6 @@ aldeed:collection2
 aldeed:autoform
 meteortoys:allthings
 mizzao:bootboxjs
-keylase:meteor-videojs
 ostrio:files
 jquery
 rubaxa:sortable
@@ -33,3 +31,18 @@ useful:forms
 chrismbeckett:toastr
 useraccounts:iron-routing
 useraccounts:bootstrap
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+bixin:meteor-plyr
+zyon:plyr
