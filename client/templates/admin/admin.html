@@ -4,7 +4,7 @@
     <ul class="list-group">
       {{#each listUsers}}
       <li class="list-group-item">
-        <p id="email" class="{{#if isLocked}} crossed {{/if}}"><a class="{{getUserStatusClass}}" data-toggle="tooltip" data-placement="top" title="{{getLastSeen}}" style="text-decoration: none;">{{ userEmail }}</a> {{timeToExpire}}
+        <p id="email" class="{{#if isLocked}} crossed {{/if}}"><a class="{{getUserStatusClass}}" data-toggle="tooltip" data-placement="top" title=" נראה לאחרונה {{getLastSeen}}">{{ userEmail }}</a> {{timeToExpire}}
           {{#unless isAdmin}}
           <button class="btn btn-danger" fr id="delbtn"> מחק משתמש</button>
           {{#unless isLocked}}
