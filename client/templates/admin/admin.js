@@ -80,8 +80,32 @@ Template.admin.helpers({
   getLessonEntryClass: function() {
     return Template.admin.__helpers.get('isDisabled')(this._id) ? "zbg crossed lesson" : "zbg lesson"
   },
+  getLastSeen: function() {
+    if(!this.status) return;
+    try {
+      return moment(this.status.lastLogin.date).locale('he').fromNow();
+    } catch(err) {
+      console.log(err);
+    }
+  },
+  getUserStatusClass: function() {
+    if(!this.status) return;
+    try{
+      if(this.status.online && !this.status.idle) {
+        return "online";
+      } else if(this.status.idle) {
+        return "idle";
+      } else if(!this.status.online) {
+        return "offline";
+      } else {
+        return "wot";
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  },
   listUsers: function(){
-    return Users.find();
+    return Meteor.users.find({},{status: 1});
   },
   listLessons: function() {
     return Lessons.find({},{sort:{'ln':1}});

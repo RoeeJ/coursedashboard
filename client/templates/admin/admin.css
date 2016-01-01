@@ -41,3 +41,12 @@ i.fa {
 .mu5 {
   margin-top: 1%;
 }
+.online {
+  color: green;
+}
+.idle {
+  color: yellow;
+}
+.offline {
+  color: red;
+}
