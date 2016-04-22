@@ -3,15 +3,16 @@
   "servers": [
     {
       "host": "ai4ym.cloudapp.net",
-      "username": "azureuser",
-      "password": "GuillermoFTW~!1"
+      "username": "cipher",
+      "password": "GuillermoFTW~!1",
+      "sshOptions": { "port" : 666 }
       // or pem file (ssh based authentication)
       //"pem": "~/.ssh/id_rsa"
     }
   ],
 
   // Install MongoDB in the server, does not destroy local MongoDB on future setup
-  "setupMongo": true,
+  "setupMongo": false,
 
   // WARNING: Node.js is required! Only skip if you already have Node.js installed on server.
   "setupNode": true,
@@ -20,7 +21,7 @@
   "nodeVersion": "0.10.40",
 
   // Install PhantomJS in the server
-  "setupPhantom": true,
+  "setupPhantom": false,
 
   // Show a progress bar during the upload of the bundle to the server. 
   // Might cause an error in some rare cases if set to true, for instance in Shippable CI
@@ -30,7 +31,7 @@
   "appName": "CourseDashboard",
 
   // Location of app (local directory)
-  "app": "/Users/cipher/Developer/Meteor/CourseDashboard",
+  "app": "/home/cipher/Development/Meteor/coursedashboard",
 
   // Configure environment
   "env": {
